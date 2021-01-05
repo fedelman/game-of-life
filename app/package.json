@@ -1,0 +1,27 @@
+{
+    "name": "@fedelman/app",
+    "version": "1.0.0",
+    "description": "Game of Life App consuming WebAssembly Lib",
+    "author": "Falk Edelmann <falk.edelmann@codecentric.de>",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "start": "webpack-dev-server"
+    },
+    "repository": {
+        "type": "git"
+    },
+    "keywords": [
+        "webassembly",
+        "wasm",
+        "rust",
+        "webpack"
+    ],
+    "dependencies": {
+        "@fedelman/gol_wasm": "1.0.0",
+        "copy-webpack-plugin": "^5.0.0",
+        "webpack": "^4.16.3",
+        "webpack-cli": "^3.1.0",
+        "webpack-dev-server": "^3.1.5"
+    }
+}

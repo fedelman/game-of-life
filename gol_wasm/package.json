@@ -1,0 +1,17 @@
+{
+    "name": "@fedelman/gol_wasm",
+    "scope": "fedelman",
+    "version": "1.0.0",
+    "description": "WebAssembly Lib for Game of Life App",
+    "author": "Falk Edelmann <falk.edelmann@codecentric.de>",
+    "private": true,
+    "license": "MIT",
+    "main": "build/index.js",
+    "typings": "build/gol_wasm.d.ts",
+    "sideEffects": false,
+    "scripts": {
+        "generate-index-file": "echo \"export * from './gol_wasm_bg.wasm';\nexport * from './gol_wasm_bg.js';\" > build/index.js",
+        "build": "wasm-pack build --out-dir build && yarn generate-index-file",
+        "format": "cargo fmt"
+    }
+}

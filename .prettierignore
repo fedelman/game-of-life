@@ -1,0 +1,10 @@
+# ignore markdown files
+*.md
+
+# ignore node modules
+node_modules/
+
+# ignore build/coverage directories
+coverage/
+build/
+dist/

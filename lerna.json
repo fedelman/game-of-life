@@ -1,0 +1,6 @@
+{
+    "packages": ["gol_wasm", "app"],
+    "version": "independent",
+    "npmClient": "yarn",
+    "useWorkspaces": true
+}
