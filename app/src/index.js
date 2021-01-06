@@ -1,4 +1,4 @@
-import { Universe, Cell, memory } from "@fedelman/gol_wasm"
+import { Universe, memory } from "@fedelman/gol_wasm"
 
 const CELL_SIZE = 10 // px
 const GRID_COLOR = "#CCCCCC"
@@ -6,7 +6,8 @@ const DEAD_COLOR = "#FFFFFF"
 const ALIVE_COLOR = "#000000"
 
 // Construct the universe, and get its width and height.
-const universe = Universe.new()
+const universe = Universe.new(64, 64)
+
 const width = universe.width()
 const height = universe.height()
 
@@ -69,9 +70,7 @@ const renderLoop = () => {
     drawGrid()
     drawCells()
 
-    for (let i = 0; i < 9; i++) {
-        universe.tick()
-    }
+    universe.tick()
 
     animationId = requestAnimationFrame(renderLoop)
 }
@@ -93,7 +92,16 @@ const pause = () => {
     animationId = null
 }
 
-playPauseButton.addEventListener("click", (event) => {
+const restartButton = document.getElementById("restart")
+restartButton.textContent = "⏮"
+
+restartButton.addEventListener("click", (_) => {
+    universe.restart()
+    drawGrid()
+    drawCells()
+})
+
+playPauseButton.addEventListener("click", (_) => {
     if (isPaused()) {
         play()
     } else {
@@ -124,38 +132,27 @@ const getIndex = (row, column) => {
     return row * width + column
 }
 
+const bitIsSet = (n, arr) => {
+    const byte = Math.floor(n / 8)
+    const mask = 1 << n % 8
+    return (arr[byte] & mask) === mask
+}
+
 const drawCells = () => {
     const cellsPtr = universe.cells()
-    const cells = new Uint8Array(memory.buffer, cellsPtr, width * height)
+    const cells = new Uint8Array(memory.buffer, cellsPtr, (width * height) / 8)
 
     ctx.beginPath()
 
-    // Alive cells.
-    ctx.fillStyle = ALIVE_COLOR
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
             const idx = getIndex(row, col)
-            if (cells[idx] !== Cell.Alive) {
-                continue
-            }
+
+            ctx.fillStyle = bitIsSet(idx, cells) ? ALIVE_COLOR : DEAD_COLOR
 
             ctx.fillRect(col * (CELL_SIZE + 1) + 1, row * (CELL_SIZE + 1) + 1, CELL_SIZE, CELL_SIZE)
         }
     }
-
-    // Dead cells.
-    ctx.fillStyle = DEAD_COLOR
-    for (let row = 0; row < height; row++) {
-        for (let col = 0; col < width; col++) {
-            const idx = getIndex(row, col)
-            if (cells[idx] !== Cell.Dead) {
-                continue
-            }
-
-            ctx.fillRect(col * (CELL_SIZE + 1) + 1, row * (CELL_SIZE + 1) + 1, CELL_SIZE, CELL_SIZE)
-        }
-    }
-
     ctx.stroke()
 }
 

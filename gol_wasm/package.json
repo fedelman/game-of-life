@@ -11,7 +11,9 @@
     "sideEffects": false,
     "scripts": {
         "generate-index-file": "echo \"export * from './gol_wasm_bg.wasm';\nexport * from './gol_wasm_bg.js';\" > build/index.js",
-        "build": "wasm-pack build --out-dir build && yarn generate-index-file",
+        "build": "wasm-pack build --out-dir build",
+        "build:debug": "yarn build --debug",
+        "postbuild": "yarn generate-index-file",
         "format": "cargo fmt"
     }
 }

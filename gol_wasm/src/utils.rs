@@ -1,3 +1,5 @@
+#![macro_use]
+
 use cfg_if::cfg_if;
 
 cfg_if! {
@@ -9,5 +11,16 @@ cfg_if! {
     } else {
         #[inline]
         pub fn set_panic_hook() {}
+    }
+}
+
+extern crate web_sys;
+
+// A macro to provide `println!(..)`-style syntax for `console.log` logging.
+// #[macro_export]
+#[allow(unused_macros)]
+macro_rules! log {
+    ( $( $t:tt )* ) => {
+        web_sys::console::log_1(&format!( $( $t )* ).into());
     }
 }
