@@ -18,5 +18,6 @@ This implementation of Conway's Game of Life is based on this [tutorial](https:/
 ## Run Game of Life App
 
 * open second terminal and go into `./app`
+* run `yarn install`
 * run `yarn start`
 * open URL http://localhost:8080/
